@@ -10,7 +10,7 @@ import java.util.List;
 public class Part1 {
 
     public String doWork() throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get("/home/lasbas/Documents/Java-projects/AdventOfCode/src/main/resources/day7input.txt"));
+        List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\Camilla\\Documents\\Java-projects\\AdventOfCode2022\\src\\main\\resources\\day7input.txt"));
 
         int idCounter = 0;
 
@@ -20,7 +20,7 @@ public class Part1 {
 
             if(line.substring(0, 4).equals("$ cd")) {
                 // Going one level up
-                if (line.substring(4).equals("..")) {
+                if (line.substring(5).equals("..")) {
                     currentNode = currentNode.parent;
                 // Changing directory
                 } else {
@@ -54,6 +54,7 @@ public class Part1 {
             }
 
         }
+        System.out.printf("test");
         // Summarize directory size
         summarizeDirectorySize(node);
         getSummarizedSize(node);
@@ -62,24 +63,37 @@ public class Part1 {
     }
 
     public void summarizeDirectorySize(TreeNode<FileSystemItem> current) {
+        if (current == null) {
+            return;
+        }
         for (TreeNode<FileSystemItem> child : current.children) {
             if (child.data.getType().equals(FileSystemItem.nodeType.DIRECTORY)) {
+                summarizeDirectorySize(child);
                 current.data.setSize(current.data.getSize() + child.data.getSize());
+
             }
-            summarizeDirectorySize(child);
         }
     }
 
     public void getSummarizedSize(TreeNode<FileSystemItem> current) {
         int result = 0;
+        // Check if root
+        if (current.parent == null) {
+            System.out.println(current.data.getName() + ";" + current.data.getType() + ";" + current.data.getSize());
+        }
+
         for (TreeNode<FileSystemItem> child : current.children) {
-            System.out.println(child.data.getName() + ";" + child.data.getType() + ";" + child.data.getSize());
             if (child.data.getType().equals(FileSystemItem.nodeType.DIRECTORY) &&
-                    child.data.getSize() < 100000 && child.data.getSize() > 1) {
+                child.data.getSize() <= 100000 && child.data.getSize() > 0) {
                 result += child.data.getSize();
+                System.out.println(child.data.getSize());
             }
             getSummarizedSize(child);
         }
         //System.out.println(result);
     }
 }
+
+//free space: 19177471
+//
+//Needed space: 10.822.529
