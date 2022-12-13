@@ -7,7 +7,8 @@ import java.util.*;
 
 public class part1 {
     public static void main(String[] args) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get("/home/lasbas/Documents/Java-projects/AdventOfCode/src/main/resources/part1input.txt"));
+        List<String> lines = Files.readAllLines(Paths.get("/home/lasbas/Documents/Java-projects/AdventOfCode/src/main/resources/day2input.txt"));
+
 
         List<Integer> elves = new ArrayList<>();
         int calories = 0;
@@ -21,7 +22,7 @@ public class part1 {
                 calories = 0;
             }
         }
-        Collections.sort(elves, Collections.reverseOrder());
+        elves.sort(Collections.reverseOrder());
 
         System.out.println("Max " + elves.get(0));
         int topthree = elves.get(0) + elves.get(1) + elves.get(2);

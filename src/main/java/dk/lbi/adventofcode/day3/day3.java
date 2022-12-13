@@ -11,6 +11,7 @@ import java.util.Map;
 public class day3 {
     public static void main(String[] args) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get("/home/lasbas/Documents/Java-projects/AdventOfCode/src/main/resources/day3input.txt"));
+
         HashSet<Character> firstHalf = new HashSet<>();
         HashSet<Character> fullSet = new HashSet<>();
         HashMap<Character, Integer> batchMap = new HashMap<>();

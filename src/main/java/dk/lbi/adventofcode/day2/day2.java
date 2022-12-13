@@ -11,6 +11,7 @@ public class day2 {
     public static void main(String[] args) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get("/home/lasbas/Documents/Java-projects/AdventOfCode/src/main/resources/day2input.txt"));
 
+
         int part1_score = 0;
         int part2_score = 0;
         for (String line : lines) {

@@ -1,16 +1,18 @@
 package dk.lbi.adventofcode.day7;
 
+import dk.lbi.adventofcode.utils.GetResourceFile;
 import dk.lbi.adventofcode.utils.TreeNode;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class Part1 {
 
-    public String doWork() throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get("C:\\Users\\Camilla\\Documents\\Java-projects\\AdventOfCode2022\\src\\main\\resources\\day7input.txt"));
+    public void doWork() throws IOException {
+
+        GetResourceFile resourceFile = new GetResourceFile();
+        List<String> lines = Files.readAllLines(resourceFile.getFile("day7input.txt").toPath());
 
         int idCounter = 0;
 
@@ -18,7 +20,7 @@ public class Part1 {
         TreeNode<FileSystemItem> currentNode = node;
         for (String line : lines.subList(1, lines.size())) {
 
-            if(line.substring(0, 4).equals("$ cd")) {
+            if(line.startsWith("$ cd")) {
                 // Going one level up
                 if (line.substring(5).equals("..")) {
                     currentNode = currentNode.parent;
@@ -32,7 +34,7 @@ public class Part1 {
                 }
             }
             // Creating new directories
-            if(line.substring(0, 3).equals("dir")) {
+            if(line.startsWith("dir")) {
                 currentNode.addChild(new FileSystemItem(
                         ++idCounter,
                         line.substring(4),
@@ -47,19 +49,16 @@ public class Part1 {
                         ++idCounter,
                         file[1],
                         FileSystemItem.nodeType.FILE,
-                        Integer.valueOf(file[0])
+                        Integer.parseInt(file[0])
                 ));
                 // Add size to parent
-                currentNode.data.setSize(currentNode.data.getSize() + Integer.valueOf(file[0]));
+                currentNode.data.setSize(currentNode.data.getSize() + Integer.parseInt(file[0]));
             }
 
         }
-        System.out.printf("test");
         // Summarize directory size
         summarizeDirectorySize(node);
         getSummarizedSize(node);
-
-        return "Blah";
     }
 
     public void summarizeDirectorySize(TreeNode<FileSystemItem> current) {
@@ -70,7 +69,6 @@ public class Part1 {
             if (child.data.getType().equals(FileSystemItem.nodeType.DIRECTORY)) {
                 summarizeDirectorySize(child);
                 current.data.setSize(current.data.getSize() + child.data.getSize());
-
             }
         }
     }
@@ -90,7 +88,6 @@ public class Part1 {
             }
             getSummarizedSize(child);
         }
-        //System.out.println(result);
     }
 }
 
