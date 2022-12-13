@@ -1,11 +1,14 @@
 package dk.lbi.adventofcode.day7;
 
+import com.sun.source.tree.Tree;
 import dk.lbi.adventofcode.utils.GetResourceFile;
 import dk.lbi.adventofcode.utils.TreeNode;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Part1 {
 
@@ -14,6 +17,7 @@ public class Part1 {
         GetResourceFile resourceFile = new GetResourceFile();
         List<String> lines = Files.readAllLines(resourceFile.getFile("day7input.txt").toPath());
 
+        List<Integer> directorySizes = new ArrayList<>();
         int idCounter = 0;
 
         TreeNode<FileSystemItem> node = new TreeNode<>(new FileSystemItem(++idCounter, "/", FileSystemItem.nodeType.DIRECTORY, 0));
@@ -59,6 +63,22 @@ public class Part1 {
         // Summarize directory size
         summarizeDirectorySize(node);
         getSummarizedSize(node);
+
+        // Get list of sizes
+        getDirectorySize(node, directorySizes);
+        Collections.sort(directorySizes);
+
+        Integer directoriesUnder100000Sum = directorySizes.stream()
+                        .filter(value -> value < 100000)
+                .reduce(0, Integer::sum);
+
+        Integer spaceNeeded = 10822529;
+
+        Integer deletedSpaceNeeded = directorySizes.stream()
+                .filter(i -> i > spaceNeeded).findFirst().
+                orElseThrow(() -> new NoSuchElementException("No value"));
+        System.out.println("Directories under 100000 " + directoriesUnder100000Sum);
+        System.out.println("Delete directory: " + deletedSpaceNeeded);
     }
 
     public void summarizeDirectorySize(TreeNode<FileSystemItem> current) {
@@ -88,6 +108,21 @@ public class Part1 {
             }
             getSummarizedSize(child);
         }
+    }
+
+    public void getDirectorySize(TreeNode<FileSystemItem> current, List<Integer> list) {
+        // Check if root
+        if (current.parent == null) {
+            System.out.println(current.data.getName() + ";" + current.data.getType() + ";" + current.data.getSize());
+        }
+
+        for (TreeNode<FileSystemItem> child : current.children) {
+            if (child.data.getType().equals(FileSystemItem.nodeType.DIRECTORY)) {
+                list.add(child.data.getSize());
+            }
+            getDirectorySize(child, list);
+        }
+
     }
 }
 
