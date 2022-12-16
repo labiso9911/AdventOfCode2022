@@ -8,14 +8,14 @@ public class GameBoard {
     int rows;
     int columns;
     String[][] board;
-    List<Player> players;
+    List<Knot> knots;
 
     public GameBoard(List<String> lines) {
         board = getDimensions(lines);
         for (String[] row : board) {
             Arrays.fill(row, ".");
         }
-        this.players = new ArrayList<>();
+        this.knots = new ArrayList<>();
     }
 
     private String[][] getDimensions(List<String> lines) {
@@ -45,23 +45,23 @@ public class GameBoard {
         return new String[rows][columns];
     }
 
-    public void addPlayer(Player player) {
-        this.players.add(player);
+    public void addPlayer(Knot knot) {
+        this.knots.add(knot);
     }
 
     public String printBoard() {
-        for (Player p: this.players) {
+        for (Knot p: this.knots) {
             board[p.getPosition().getRow()][p.getPosition().getColumn()] = p.getName();
         }
         return Arrays.deepToString(board).replace("], ", "]\n");
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<Knot> getPlayers() {
+        return knots;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void setPlayers(List<Knot> knots) {
+        this.knots = knots;
     }
 
     public String[][] getBoard() {

@@ -2,12 +2,12 @@ package dk.lbi.adventofcode.day9;
 
 import java.util.Stack;
 
-public class Player {
+public class Knot {
     private String name;
     private Position position;
     private Stack<Position> historicPositions;
 
-    public Player(String name, Position position) {
+    public Knot(String name, Position position) {
         this.name = name;
         this.position = position;
         historicPositions = new Stack<>();

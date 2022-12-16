@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class Part1 {
+public class Part2 {
+
     public void doWork() throws IOException {
         System.out.println("Hello");
 
@@ -17,11 +18,18 @@ public class Part1 {
 
         // Set up "Board" and place head and tail in the middle
         GameBoard gameBoard = new GameBoard(lines);
-        Knot head = new Knot("H", new Position(gameBoard.getRows()/2,gameBoard.getColumns()/2));
-        Knot tail = new Knot("T", new Position(gameBoard.getRows()/2,gameBoard.getColumns()/2));
 
-        gameBoard.addPlayer(head);
-        gameBoard.addPlayer(tail);
+        List<Knot> rope = new ArrayList<>();
+
+        rope.add(new Knot("H", new Position(gameBoard.getRows()/2,gameBoard.getColumns()/2)));
+
+        for(int i = 1; i<8; i++) {
+            rope.add(new Knot(""+i, new Position(gameBoard.getRows()/2, gameBoard.getColumns()/2)));
+        }
+
+        rope.add(new Knot("T", new Position(gameBoard.getRows()/2,gameBoard.getColumns()/2)));
+
+
 
         HashSet<String> result = new HashSet<>();
 
@@ -29,7 +37,17 @@ public class Part1 {
             String[] splitLine = line.split(" ");
 
             for (int i = 0; i < Integer.parseInt(splitLine[1]); i++) {
-                head.setPosition(getHeadNewPosition(head.getPosition(), splitLine[0]));
+                // Set head position
+                rope.get(0).setPosition(getHeadNewPosition(rope.get(0).getPosition(), splitLine[0]));
+                for (int y=1; y > rope.size(); y++) {
+                    // set each row accordingly to the previous
+
+                    
+                    rope.get(y).setPosition();
+
+                }
+
+
 
                 System.out.println("Head moves + " + splitLine[0] + " : " + head.getPosition().toString());
 
@@ -71,7 +89,7 @@ public class Part1 {
         return newPosition;
     }
 
-    private boolean isTailPositionWithinRange(Position headPosition, Position currentPosition) {
+    private boolean isPositionWithinRange(Position headPosition, Position currentPosition) {
 
         boolean isTailWithinRange = false;
 
