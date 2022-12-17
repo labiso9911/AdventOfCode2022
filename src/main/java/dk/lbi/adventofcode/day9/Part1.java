@@ -24,6 +24,7 @@ public class Part1 {
         gameBoard.addPlayer(tail);
 
         HashSet<String> result = new HashSet<>();
+        HashSet<String> result2 = new HashSet<>();
 
         for (String line : lines) {
             String[] splitLine = line.split(" ");

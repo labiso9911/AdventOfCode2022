@@ -11,25 +11,21 @@ import java.util.List;
 public class Part2 {
 
     public void doWork() throws IOException {
-        System.out.println("Hello");
-
         GetResourceFile resourceFile = new GetResourceFile();
         List<String> lines = Files.readAllLines(resourceFile.getFile("day9input.txt").toPath());
 
         // Set up "Board" and place head and tail in the middle
         GameBoard gameBoard = new GameBoard(lines);
 
-        List<Knot> rope = new ArrayList<>();
+        List<Knot> ropes = new ArrayList<>();
 
-        rope.add(new Knot("H", new Position(gameBoard.getRows()/2,gameBoard.getColumns()/2)));
 
-        for(int i = 1; i<8; i++) {
-            rope.add(new Knot(""+i, new Position(gameBoard.getRows()/2, gameBoard.getColumns()/2)));
+        // Initialize knots
+        ropes.add(new Knot("H", new Position(gameBoard.getRows()/2,gameBoard.getColumns()/2)));
+        for(int i = 1; i<9; i++) {
+            ropes.add(new Knot(""+i, new Position(gameBoard.getRows()/2, gameBoard.getColumns()/2)));
         }
-
-        rope.add(new Knot("T", new Position(gameBoard.getRows()/2,gameBoard.getColumns()/2)));
-
-
+        ropes.add(new Knot("T", new Position(gameBoard.getRows()/2,gameBoard.getColumns()/2)));
 
         HashSet<String> result = new HashSet<>();
 
@@ -38,30 +34,27 @@ public class Part2 {
 
             for (int i = 0; i < Integer.parseInt(splitLine[1]); i++) {
                 // Set head position
-                rope.get(0).setPosition(getHeadNewPosition(rope.get(0).getPosition(), splitLine[0]));
-                for (int y=1; y > rope.size(); y++) {
-                    // set each row accordingly to the previous
+                ropes.get(0).setPosition(getHeadNewPosition(ropes.get(0).getPosition(), splitLine[0]));
+                System.out.println("Head moved to: " + ropes.get(0).getPosition().toString());
+                for (int y=1; y < ropes.size(); y++) {
 
-                    
-                    rope.get(y).setPosition();
+                    // set each position of the knot accordingly to the previous knot
+                    // If the position is not within the previous move to the previous last position
+                    if (!isPositionWithinRange(ropes.get(y-1).getPosition(), ropes.get(y).getPosition())){
 
-                }
+                        Position headPreviousPosition = ropes.get(y-1).getHistoricPositions().get(ropes.get(y-1).getHistoricPositions().size()-2);
 
+                        ropes.get(y).setPosition(new Position(headPreviousPosition.getRow(), headPreviousPosition.getColumn()));
 
-
-                System.out.println("Head moves + " + splitLine[0] + " : " + head.getPosition().toString());
-
-                // If tail is not within allowed position, move to heads previous position
-                if (!isTailPositionWithinRange(head.getPosition(), tail.getPosition())){
-
-                    Position headPreviousPosition = head.getHistoricPositions().get(head.getHistoricPositions().size()-2);
-
-                    tail.setPosition(new Position(headPreviousPosition.getRow(), headPreviousPosition.getColumn()));
-                    result.add("r"+tail.getPosition().getRow()+"c"+tail.getPosition().getColumn());
+                        if(y == 9) {
+                            System.out.println("Knot: " + ropes.get(y).getName() + " moved to " + ropes.get(y).getPosition().toString());
+                        }
+                    }
+                    result.add("r"+ropes.get(9).getPosition().getRow()+"c"+ropes.get(9).getPosition().getColumn());
                 }
             }
         }
-        System.out.println("Result: " + result.size());
+        System.out.println("Result Part 2: " + result.size());
     }
 
     private Position getHeadNewPosition(Position currentPosition, String direction) {
