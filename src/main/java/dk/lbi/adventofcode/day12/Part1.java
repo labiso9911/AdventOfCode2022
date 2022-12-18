@@ -14,13 +14,17 @@ public class Part1 {
         GetResourceFile resourceFile = new GetResourceFile();
         List<String> lines = Files.readAllLines(resourceFile.getFile("day9input.txt").toPath());
 
-        char[][] map = new char[6][8];
+
         // Input all field into 2d array
+        char[][] map = new char[6][8];
         for (int i = 0; i < lines.size(); i++) {
             for (int y = 0; y < lines.get(i).length(); y++) {
                 map[i][y] = lines.get(i).charAt(y);
             }
         }
+
+        // Run through 2d map and create 
+
         System.out.println("Yeehaw");
 
 
