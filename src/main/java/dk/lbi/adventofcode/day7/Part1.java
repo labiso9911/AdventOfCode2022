@@ -1,6 +1,5 @@
 package dk.lbi.adventofcode.day7;
 
-import com.sun.source.tree.Tree;
 import dk.lbi.adventofcode.utils.GetResourceFile;
 import dk.lbi.adventofcode.utils.TreeNode;
 
