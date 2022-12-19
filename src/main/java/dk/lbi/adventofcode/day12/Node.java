@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Node {
 
-    private String name;
+    private Character name;
 
     private List<Node> shortestPath = new LinkedList<>();
 
@@ -19,15 +19,15 @@ public class Node {
         adjacentNodes.put(destination, distance);
     }
 
-    public Node(String name) {
+    public Node(Character name) {
         this.name = name;
     }
 
-    public String getName() {
+    public Character getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Character name) {
         this.name = name;
     }
 
