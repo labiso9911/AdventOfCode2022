@@ -23,9 +23,6 @@ public class Part1 {
             String[] range1Line = splitLine[0].split("-");
             String[] range2Line = splitLine[1].split("-");
 
-            List<Integer> result1 = new ArrayList<>();
-            List<Integer> result2 = new ArrayList<>();
-
             List<Integer> range1 = IntStream
                     .rangeClosed(Integer.parseInt(range1Line[0]), Integer.parseInt(range1Line[1]))
                     .boxed()
@@ -35,34 +32,15 @@ public class Part1 {
                     .boxed()
                     .collect(Collectors.toList());
 
-
-
-
-            for (Integer i: range1) {
-                if (range2.contains(i)){
-                    result1.add(i);
-                }
-            }
-            for (Integer i: range2) {
-                if (range1.contains(i)){
-                    result2.add(i);
-                }
-            }
-
-            if (result1.size() == range1.size() || result2.size() == range2.size()){
-                part1Result++;
-            }
-
             if(!Collections.disjoint(range1, range2)){
                 part2Result++;
             }
 
-            System.out.println("Result Part 1: " + part1Result);
-            System.out.println("Result Part 2: " + part2Result);
-
-
-
-            System.out.println("Hello");
+            if(range1.containsAll(range2) || range2.containsAll(range1)) {
+                part1Result++;
+            }
         }
+        System.out.println("Result Part 1: " + part1Result);
+        System.out.println("Result Part 2: " + part2Result);
     }
 }
