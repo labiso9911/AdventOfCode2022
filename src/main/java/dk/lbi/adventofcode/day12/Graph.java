@@ -7,6 +7,12 @@ public class Graph {
 
     private Map<String, Node> nodes = new HashMap<>();
 
+    public Graph() {
+    }
+
+    public Graph(Map<String, Node> inputNodes) {
+        this.nodes = inputNodes;
+    }
     public Map<String, Node> getNodes() {
         return nodes;
     }

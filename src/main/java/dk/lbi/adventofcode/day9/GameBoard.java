@@ -18,6 +18,14 @@ public class GameBoard {
         this.knots = new ArrayList<>();
     }
 
+    public GameBoard(List<String> lines, List<Knot> knots) {
+        board = getDimensions(lines);
+        for (String[] row : board) {
+            Arrays.fill(row, ".");
+        }
+        this.knots = knots;
+    }
+
     private String[][] getDimensions(List<String> lines) {
         int totalUp = 0;
         int totalDown = 0;
@@ -30,17 +38,17 @@ public class GameBoard {
 
             switch (splitLine[0]) {
                 case "U":
-                    totalUp++;
+                    totalUp+= Integer.parseInt(splitLine[1]);
                 case "D":
-                    totalDown++;
+                    totalDown+= Integer.parseInt(splitLine[1]);
                 case "L":
-                    totalLeft++;
+                    totalLeft += Integer.parseInt(splitLine[1]);
                 case "R":
-                    totalRight++;
+                    totalRight += Integer.parseInt(splitLine[1]);
             }
         }
-        this.rows = totalDown + totalUp;
-        this.columns = totalLeft + totalRight;
+        this.rows = (totalDown + totalUp);
+        this.columns = (totalLeft + totalRight);
 
         return new String[rows][columns];
     }
